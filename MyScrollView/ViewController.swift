@@ -7,6 +7,7 @@
 
 import UIKit
 import NotificationCenter
+import IQKeyboardManagerSwift
 
 class ViewController: UIViewController, UIScrollViewDelegate {
     
@@ -14,13 +15,21 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var textView: UITextView!
     
     var keyboardHeight: CGFloat?
+    var keyboardIsVisible = false
 
+    @IBOutlet weak var textViewBottomConstraints: NSLayoutConstraint!
+    
     @IBOutlet weak var scrollview: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        scrollview.keyboardDismissMode = .onDrag
+        
         textView.isScrollEnabled = false
         textView.delegate = self
+        
+        //textView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
         print("작동중?")
         
@@ -31,15 +40,30 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
 
     @objc func keyboardWillShowNotification(keyboard: NSNotification){
-        let userInfo = keyboard.userInfo
-        let keyboardFrame = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-        keyboardHeight = keyboardFrame.height
+        guard let keyboardFrameBegin = keyboard.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        
+        let keyboardFrameBeginRect = keyboardFrameBegin.cgRectValue
+        
+        //let userInfo = keyboard.userInfo
+        //let keyboardFrame = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+        keyboardHeight = keyboardFrameBeginRect.height
 
-       calculateKeyboardHeight()
+        calculateKeyboardHeight()
+    }
+    
+    func animateUI(_ scrollValue: CGFloat) {
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut) {
+            self.view.frame.origin.y -= scrollValue
+            self.view.layoutIfNeeded()
+        }
+        animator.startAnimation()
     }
     
     @objc func keyboardWillHideNotification(keyboard: NSNotification){
+        self.keyboardIsVisible = false
         self.view.frame.origin.y = 0
+        self.view.layoutIfNeeded()
+        //animateUI(0)
     }
     
     
@@ -53,33 +77,33 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     
     
     func calculateKeyboardHeight() {
-        print("동작")
+        guard let keyboardHeight = keyboardHeight else { return }
+        //텍스트뷰에서 선택한 텍스트까지의 사각형 크기
         let caret = textView.caretRect(for: textView.selectedTextRange!.start)
-         print("\(caret.origin.y)")
-        let keyboardTopBorder = textView.bounds.size.height - (keyboardHeight ?? 0)
         
         
-        //caret.origin.y < keyboardTopBorder
-        
-        //남은 공간
+        //텍스트뷰의 전체 높이에서 선택한 텍스트의 길이를 빼고 남은 공간
         let size = textView.bounds.size.height - caret.origin.y
         print(size)
-        
-        guard let keyboardHeight = keyboardHeight else { return }
+                            
         if size < keyboardHeight {
             print("작다")
-            textView.layoutIfNeeded()
-
+            
             self.view.frame.origin.y = 0
             self.view.frame.origin.y -= keyboardHeight
+            self.view.layoutIfNeeded()
+            //animateUI(keyboardHeight)
+            
+            
             //textView.scrollRectToVisible(caret, animated: true)
-            scrollview.scrollToBottom()
+            //scrollview.scrollToBottom()
             
         } else {
-            print("크 다")
-            //textView.scrollRectToVisible(caret, animated: true)
-            //self.view.frame.origin.y = 0
-            //self.view.frame.origin.y -= keyboardHeight ?? 0
+            print("크다")
+            self.view.frame.origin.y = 0
+            self.view.layoutIfNeeded()
+            //animateUI(0)
+            
         }
     }
     
@@ -89,15 +113,12 @@ extension ViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         self.view.frame.origin.y = 0
+        self.view.layoutIfNeeded()
     }
-    
-//    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-//        calculateKeyboardHeight()
-//        return true
-//    }
     
     func textViewDidChange(_ textView: UITextView) {
         calculateKeyboardHeight()
+        //IQKeyboardManager.shared.reloadLayoutIfNeeded()
     }
 
 }
@@ -136,6 +157,7 @@ public extension UIScrollView {
 
     func scrollToBottom() {
         let bottomOffset = CGPoint(x: 0, y: contentSize.height - bounds.size.height + contentInset.bottom)
+        print(bottomOffset)
         if(bottomOffset.y > 0) {
             setContentOffset(bottomOffset, animated: true)
         }

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -17,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cme-Uc-g6x">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="24" width="414" height="818"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hHW-YI-yc4">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="350"/>
@@ -54,9 +55,8 @@
                                             <constraint firstAttribute="bottom" secondItem="eTi-4b-Eam" secondAttribute="bottom" id="w0y-j4-pWk"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D4U-1v-ujb">
-                                        <rect key="frame" x="174" y="394" width="67" height="31"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D4U-1v-ujb">
+                                        <rect key="frame" x="173.5" y="393.5" width="67" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Button"/>
                                         <connections>
@@ -79,14 +79,17 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Cme-Uc-g6x" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Hfv-MZ-Hax"/>
+                            <constraint firstItem="D4U-1v-ujb" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Kcs-CH-kTt"/>
                             <constraint firstItem="Cme-Uc-g6x" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="S8c-M3-YM4"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Cme-Uc-g6x" secondAttribute="bottom" id="cL9-Z9-28m"/>
+                            <constraint firstItem="D4U-1v-ujb" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="l0x-2N-za5"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Cme-Uc-g6x" secondAttribute="trailing" id="oDq-Jb-oGb"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="scrollview" destination="Cme-Uc-g6x" id="YP8-4p-q14"/>
                         <outlet property="textView" destination="eTi-4b-Eam" id="Mdo-dg-YMM"/>
+                        <outlet property="textViewBottomConstraints" destination="w0y-j4-pWk" id="9Gx-bE-Nzr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -159,7 +162,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PWt-dy-vs3" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-9104" y="1688"/>
+            <point key="canvasLocation" x="-8810" y="1688"/>
         </scene>
     </scenes>
     <resources>
