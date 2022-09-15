@@ -14,6 +14,7 @@
 		1B0225AE286552C600A1BDF1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B0225AD286552C600A1BDF1 /* Assets.xcassets */; };
 		1B0225B1286552C600A1BDF1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B0225AF286552C600A1BDF1 /* LaunchScreen.storyboard */; };
 		1B0225FA28685F2800A1BDF1 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0225F928685F2800A1BDF1 /* UIColor+Extension.swift */; };
+		1B5AE27328D32E28007C4010 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5AE27228D32E28007C4010 /* TestViewController.swift */; };
 		1BD9BDA628D1F4660048001B /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1BD9BDA528D1F4660048001B /* IQKeyboardManagerSwift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		1B0225B0286552C600A1BDF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1B0225B2286552C600A1BDF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B0225F928685F2800A1BDF1 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		1B5AE27228D32E28007C4010 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				1B0225F828685F1600A1BDF1 /* Extension */,
 				1B0225AF286552C600A1BDF1 /* LaunchScreen.storyboard */,
 				1B0225AA286552C300A1BDF1 /* Main.storyboard */,
+				1B5AE27228D32E28007C4010 /* TestViewController.swift */,
 			);
 			path = MyScrollView;
 			sourceTree = "<group>";
@@ -157,6 +160,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B5AE27328D32E28007C4010 /* TestViewController.swift in Sources */,
 				1B0225A9286552C300A1BDF1 /* ViewController.swift in Sources */,
 				1B0225A5286552C300A1BDF1 /* AppDelegate.swift in Sources */,
 				1B0225A7286552C300A1BDF1 /* SceneDelegate.swift in Sources */,

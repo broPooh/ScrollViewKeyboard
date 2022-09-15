@@ -1,50 +1,42 @@
 //
-//  ViewController.swift
+//  TestViewController.swift
 //  MyScrollView
 //
-//  Created by bro on 2022/06/24.
+//  Created by bro on 2022/09/15.
 //
 
 import UIKit
-import NotificationCenter
 import IQKeyboardManagerSwift
 
-class ViewController: UIViewController, UIScrollViewDelegate {
-    
+class TestViewController: UIViewController {
 
+    @IBOutlet weak var label: UILabel!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     var keyboardHeight: CGFloat?
     var keyboardIsVisible = false
-
-    @IBOutlet weak var textViewBottomConstraints: NSLayoutConstraint!
-    
-    @IBOutlet weak var scrollview: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        textViewConfigure()
         
-        scrollview.keyboardDismissMode = .onDrag
-        
-        textView.isScrollEnabled = false
-        textView.delegate = self
-        
-        //textView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        
-        print("작동중?")
-        
+        IQKeyboardManager.shared.enable = true
+        //addNotification()
+    }
+    
+    func addNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowNotification(keyboard:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideNotification(keyboard:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-
+    
     @objc func keyboardWillShowNotification(keyboard: NSNotification){
         guard let keyboardFrameBegin = keyboard.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         
         let keyboardFrameBeginRect = keyboardFrameBegin.cgRectValue
-        
-        //let userInfo = keyboard.userInfo
-        //let keyboardFrame = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+
         keyboardHeight = keyboardFrameBeginRect.height
 
         calculateKeyboardHeight()
@@ -66,14 +58,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
     
     
-    @IBAction func tapGestureClicked(_ sender: UITapGestureRecognizer) {
-        self.textView.resignFirstResponder()
-    }
-
-    @IBAction func buttonClicked(_ sender: UIButton) {
-        view.endEditing(true)
-    }
     
+    func textViewConfigure() {
+        textView.isScrollEnabled = false
+    }
     
     func calculateKeyboardHeight() {
         guard let keyboardHeight = keyboardHeight else { return }
@@ -93,24 +81,21 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             self.view.frame.origin.y = 0
             self.view.frame.origin.y -= keyboardHeight
             self.view.layoutIfNeeded()
-            //animateUI(keyboardHeight)
 
-            textView.contentOffset.y
             textView.scrollRectToVisible(caret, animated: true)
-            //scrollview.scrollToBottom()
+            //scrollView.scrollToBottom()
             
         } else {
             print("크다")
             self.view.frame.origin.y = 0
             self.view.layoutIfNeeded()
-            //animateUI(0)
-            
         }
     }
     
+
 }
 
-extension ViewController: UITextViewDelegate {
+extension TestViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         self.view.frame.origin.y = 0
@@ -118,49 +103,9 @@ extension ViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        calculateKeyboardHeight()
+        //calculateKeyboardHeight()
         //IQKeyboardManager.shared.reloadLayoutIfNeeded()
+        IQKeyboardManager.shared.layoutIfNeededOnUpdate = true
     }
 
-}
-
-public enum ScrollDirection {
-    case top
-    case center
-    case bottom
-}
-
-
-public extension UIScrollView {
-
-    func scroll(to direction: ScrollDirection) {
-
-        DispatchQueue.main.async {
-            switch direction {
-            case .top:
-                self.scrollToTop()
-            case .center:
-                self.scrollToCenter()
-            case .bottom:
-                self.scrollToBottom()
-            }
-        }
-    }
-
-    func scrollToTop() {
-        setContentOffset(.zero, animated: true)
-    }
-
-    func scrollToCenter() {
-        let centerOffset = CGPoint(x: 0, y: (contentSize.height - bounds.size.height) / 2)
-        setContentOffset(centerOffset, animated: true)
-    }
-
-    func scrollToBottom() {
-        let bottomOffset = CGPoint(x: 0, y: contentSize.height - bounds.size.height + contentInset.bottom)
-        print(bottomOffset)
-        if(bottomOffset.y > 0) {
-            setContentOffset(bottomOffset, animated: true)
-        }
-    }
 }
