@@ -30,9 +30,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         textView.delegate = self
         
         //textView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        
-        print("작동중?")
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowNotification(keyboard:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideNotification(keyboard:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -51,11 +48,15 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func animateUI(_ scrollValue: CGFloat) {
-        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut) {
+//        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut) {
+//            self.view.frame.origin.y -= scrollValue
+//            self.view.layoutIfNeeded()
+//        }
+//        animator.startAnimation()
+        UIView.animate(withDuration: 0.3) {
             self.view.frame.origin.y -= scrollValue
             self.view.layoutIfNeeded()
         }
-        animator.startAnimation()
     }
     
     @objc func keyboardWillHideNotification(keyboard: NSNotification){
@@ -65,10 +66,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         //animateUI(0)
     }
     
-    
-    @IBAction func tapGestureClicked(_ sender: UITapGestureRecognizer) {
-        self.textView.resignFirstResponder()
-    }
 
     @IBAction func buttonClicked(_ sender: UIButton) {
         view.endEditing(true)
@@ -93,9 +90,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             self.view.frame.origin.y = 0
             self.view.frame.origin.y -= keyboardHeight
             self.view.layoutIfNeeded()
-            //animateUI(keyboardHeight)
-
-            textView.contentOffset.y
+            
             textView.scrollRectToVisible(caret, animated: true)
             //scrollview.scrollToBottom()
             
@@ -103,6 +98,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             print("크다")
             self.view.frame.origin.y = 0
             self.view.layoutIfNeeded()
+            textView.scrollRectToVisible(caret, animated: true)
             //animateUI(0)
             
         }
@@ -119,7 +115,6 @@ extension ViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         calculateKeyboardHeight()
-        //IQKeyboardManager.shared.reloadLayoutIfNeeded()
     }
 
 }
@@ -129,8 +124,6 @@ public enum ScrollDirection {
     case center
     case bottom
 }
-
-
 public extension UIScrollView {
 
     func scroll(to direction: ScrollDirection) {

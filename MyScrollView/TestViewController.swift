@@ -14,16 +14,12 @@ class TestViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var scrollView: UIScrollView!
     
-    var keyboardHeight: CGFloat?
-    var keyboardIsVisible = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         textViewConfigure()
         
         IQKeyboardManager.shared.enable = true
-        //addNotification()
     }
     
     func textViewConfigure() {
@@ -34,10 +30,8 @@ class TestViewController: UIViewController {
 }
 
 extension TestViewController: UITextViewDelegate {
-    
+
     func textViewDidChange(_ textView: UITextView) {
-        //calculateKeyboardHeight()
-        //IQKeyboardManager.shared.reloadLayoutIfNeeded()
         IQKeyboardManager.shared.layoutIfNeededOnUpdate = true
     }
 
